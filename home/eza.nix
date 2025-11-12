@@ -14,7 +14,7 @@
       "--group-directories-first"
       # "--color-scale"
       "--long"
-      "--classify"
+      # "--classify"
       # "--extended"
     ];
     icons = "auto";
