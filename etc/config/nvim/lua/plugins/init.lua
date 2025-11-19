@@ -1,6 +1,6 @@
 return {
     {
-        "github/copilot.vim",
+       "github/copilot.vim",
         enabled = false,
     },
     {
@@ -53,7 +53,7 @@ return {
         opts = {},
     },
     { "windwp/nvim-autopairs", opts = {} },
-    { "folke/trouble.nvim", opts = {} },
+    { "folke/trouble.nvim", opts = {}, cmd = "Trouble" },
     {
         "folke/todo-comments.nvim",
         -- dependencies = { "nvim-lua/plenary.nvim" },
