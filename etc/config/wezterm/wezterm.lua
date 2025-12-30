@@ -17,7 +17,7 @@ local config = {
     -- freetype_load_target = "Normal",
     -- freetype_render_target = "HorizontalLcd",
 
-    color_scheme = 'hadalized dark p3'
+    color_scheme = 'hadalized'
 }
 
 return config

@@ -9,6 +9,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 vim.opt.termguicolors = true
 vim.opt.background = 'dark'
 
@@ -23,11 +24,6 @@ end
 -- require("packager").setup()
 require("config.lazy")
 
-
--- ---------------------------------------------------------------------------
--- post package config
--- ---------------------------------------------------------------------------
-
 vim.cmd([[
 try
     colorscheme hadalized
@@ -35,6 +31,11 @@ catch /^Vim\%((\a\+)\)\=:E185/
     colorscheme default
 endtry
 ]])
+
+-- ---------------------------------------------------------------------------
+-- post package config
+-- ---------------------------------------------------------------------------
+
 
 vim.cmd([[
 autocmd filetype nix setlocal commentstring=#\ %s
@@ -70,6 +71,7 @@ vim.opt.clipboard:append('unnamedplus')
 vim.opt.colorcolumn = '+1'
 vim.opt.completeopt = { 'noinsert', 'menuone', 'noselect' }
 vim.opt.confirm = true
+vim.opt.cursorline = true
 vim.opt.expandtab = true
 vim.opt.foldcolumn = "0"
 vim.opt.foldenable = true
@@ -132,22 +134,28 @@ vim.opt.wildignore = {
 }
 
 -- NOTE: default lualine seems sensible enough for now.
+local statusline = {
+    '%{mode()} | ',
+    'buf:%n | ',
+    ' %F',  -- full path to file
+    -- '%{fugitive#statusline()}',
+    -- righthand side
+    '%=',
+    '%{&filetype} (%{&fenc}) ',
+    '%h%m%w%r | ',
+    '%l:%c (%p%%) ',
+    '%*',
+}
 -- local statusline = {
---     '%{mode()} | ',
---     'b:%n | ',
---     ' %F |',
---     -- '%{fugitive#statusline()}',
---     '%=',
---     '%{&fenc} | ',
---     '{&ff} | ',
---     '%h',
---     '%m',
---     '%w',
---     '%r',
---     '%y',
---     '%p%% %l:%c',
---     '#warningmsg#',
---     '%*',
+--   '%{mode()} | ',
+--   ' %t',
+--   '%r',
+--   '%m',
+--   '%=',
+--   '%{&filetype}',
+--   ' %2p%%',
+--   ' %3l:%-2c '
 -- }
--- vim.opt.statusline = table.concat(statusline, '')
+
+vim.o.statusline = table.concat(statusline, '')
 

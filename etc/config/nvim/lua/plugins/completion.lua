@@ -19,6 +19,8 @@ return {
             formatting = {
                 format = lspkind.cmp_format({
                     mode = "symbol_text",
+                    show_labelDetails = true,
+                    -- mode = "symbol",
                     -- preset = 'codicons'
                     -- Can add more control.
                     before = function(entry, vim_item)

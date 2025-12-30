@@ -1,26 +1,26 @@
 return {
-    {
-       "github/copilot.vim",
-        enabled = false,
-    },
-    {
-        "zbirenbaum/copilot.lua",
-        enabled = false,
-        lazy = false,
-        -- opts for use with copilot-cmp
-        opts = {
-            panel = { enabled = false },
-            suggestion = { enabled = false },
-            filetypes = { ["*"] = true },
-            copilot_node_command = 'node', -- Node.js version must be > 16.x
-            server_opts_overrides = {},
-        }
-    },
-    {
-        "zbirenbaum/copilot-cmp",
-        dependencies = { "copilot.lua" },
-        opts = {},
-    },
+    -- {
+    --    "github/copilot.vim",
+    --     enabled = false,
+    -- },
+    -- {
+    --     "zbirenbaum/copilot.lua",
+    --     enabled = false,
+    --     lazy = false,
+    --     -- opts for use with copilot-cmp
+    --     opts = {
+    --         panel = { enabled = false },
+    --         suggestion = { enabled = false },
+    --         filetypes = { ["*"] = true },
+    --         copilot_node_command = 'node', -- Node.js version must be > 16.x
+    --         server_opts_overrides = {},
+    --     }
+    -- },
+    -- {
+    --     "zbirenbaum/copilot-cmp",
+    --     dependencies = { "copilot.lua" },
+    --     opts = {},
+    -- },
     {
         "L3MON4D3/LuaSnip",
         -- follow latest release.
@@ -47,13 +47,35 @@ return {
         },
         -- dependencies = { { "nvim-lua/plenary.nvim" } },
     },
-    {
-        "nvim-lualine/lualine.nvim",
-        -- dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts = {},
-    },
+    -- {
+    --     "nvim-lualine/lualine.nvim",
+    --     -- dependencies = { "nvim-tree/nvim-web-devicons" },
+    --     opts = {},
+    -- },
+    --
+			--  {
+			--   'beauwilliams/statusline.lua',
+			--   dependencies = {
+			--           'nvim-lua/lsp-status.nvim',
+			--   },
+			--      opts = {
+			-- -- match_colorscheme = true,
+			--      },
+			--  },
     { "windwp/nvim-autopairs", opts = {} },
+    -- { "nvim-mini/mini.nvim", version = false },
     { "folke/trouble.nvim", opts = {}, cmd = "Trouble" },
+    {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                -- See the configuration section for more details
+                -- Load luvit types when the `vim.uv` word is found
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
+    },
     {
         "folke/todo-comments.nvim",
         -- dependencies = { "nvim-lua/plenary.nvim" },
