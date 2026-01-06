@@ -1,3 +1,6 @@
+# The main home-manager configuration file used by most "profiles". Equivalent
+# to the ~/.config/home-manager/home.nix file generated in a stand-alone
+# home-manager install.
 {
   pkgs,
   lib,

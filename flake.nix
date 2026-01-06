@@ -87,14 +87,16 @@
     targets = rec {
       # Default settings for hosts / machines.
       default = {
+        macos.homedirs = "/Users";
+        linux.homedirs = "/home";
         home.stateVersion = "25.11";
-        home.config = "default.nix";
+        home.config = "home.nix";
       };
 
       macos_arm = {
         host.system = "aarch64-darwin";
         host.config = "aarch64-darwin.nix";
-        host.homedirs = "/Users";
+        host.homedirs = default.macos.homedirs;
         home.stateVersion = default.home.stateVersion;
         home.config = default.home.config;
         home.nixpkgs = inputs.nixpkgs-darwin;
@@ -103,7 +105,7 @@
       macos_intel = {
         host.system = "x86_64-darwin";
         host.config = "x86_64-darwin.nix";
-        host.homedirs = "/Users";
+        host.homedirs = default.macos.homedirs;
         home = macos_arm.home;
       };
 

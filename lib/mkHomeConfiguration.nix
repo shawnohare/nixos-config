@@ -12,6 +12,6 @@ home-manager.lib.homeManagerConfiguration rec {
   pkgs = target.home.nixpkgs.legacyPackages.${target.host.system};
   extraSpecialArgs = {inherit inputs target;};
   modules = [
-    ../home/${target.home.config}
+    ../home-manager/${target.home.config}
   ];
 }

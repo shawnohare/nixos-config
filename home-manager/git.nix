@@ -1,3 +1,5 @@
+# trace: warning: Shawn.OHare profile: The option `programs.git.userEmail' defined in `/nix/store/px67al31v4ra64cq1pa5n9jxkyl81a5g-source/home-manager/git.nix' has been renamed to `programs.git.settings.user.email'.
+# trace: warning: Shawn.OHare profile: The option `programs.git.userName' defined in `/nix/store/px67al31v4ra64cq1pa5n9jxkyl81a5g-source/home-manager/git.nix' has been renamed to `programs.git.settings.user.name'.
 {
   config,
   nixpkgs,
@@ -7,11 +9,11 @@
 }: {
   programs.git = {
     enable = true;
-    userName = "Shawn O'Hare";
-    userEmail = "shawn@shawnohare.com";
     lfs.enable = true;
 
     settings = {
+      user.name = "Shawn O'Hare";
+      user.email = "shawn@shawnohare.com";
       alias = {
         df = "diff --color-words=. --ws-error-highlight=new,old";
         lg = "log --decorate";
