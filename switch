@@ -225,7 +225,9 @@ cmd_home() {
 
 cmd_update() {
     # Update nixpkgs and the input package
-    nix flake lock --update-input nixpkgs --update-input "$1"
+    echo "Just use nix flake update $1"
+    return 1
+    # nix flake lock --update-input nixpkgs --update-input "$1"
 }
 
 
@@ -234,7 +236,12 @@ cmd_init() {
         xcode-select --install
     fi
     echo "Using Determinate Systems nix installer. Select no install vanilla nix."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+    echo "Not Implemented. Determinate installer no longer installs vanilla nix."
+    # sh <(curl -L https://nixos.org/nix/install) --daemon
+    # sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
+    curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh
+    return 1
+    # curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 }
 
 # Parse subcommands.

@@ -10,8 +10,8 @@
     autocd = true;
     # Used to be able to set xdg for dotDir now it prepends HOME
     # https://github.com/nix-community/home-manager/issues/5100
-    # dotDir = "${config.xdg.configHome}/zsh";
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
+    # dotDir = ".config/zsh";
     autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting = {

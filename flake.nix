@@ -11,6 +11,7 @@
     # stable nixpkgs
     nixpkgs-stable.url = "github:nixos/nixpkgs/release-25.05";
     nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
+
     # unstable nixpkgs (can be used to get more frequent updates)
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -34,12 +35,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-hardware.url = "github:nixos/nixos-hardware";
-    nixos-generators.url = "github:nix-community/nixos-generators";
+    # nixos-hardware.url = "github:nixos/nixos-hardware";
+    # nixos-generators.url = "github:nix-community/nixos-generators";
 
-    nur = {
-      url = "github:nix-community/NUR";
-    };
+    # nur = {
+    #   url = "github:nix-community/NUR";
+    # };
 
     # nixgl = {
     #   url = "github:guibou/nixGL";
@@ -51,10 +52,8 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
 
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-
     alejandra = {
-      url = "github:kamadorueda/alejandra/3.0.0";
+      url = "github:kamadorueda/alejandra/4.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -64,7 +63,7 @@
     nixpkgs,
     home-manager,
     nix-darwin,
-    nur,
+    # nur,
     determinate,
     # alejandra,
     # , nixgl
@@ -88,26 +87,29 @@
     targets = rec {
       # Default settings for hosts / machines.
       default = {
-        home.stateVersion = "25.05";
+        home.stateVersion = "25.11";
         home.config = "default.nix";
       };
 
-      macos.arm = {
+      macos_arm = {
         host.system = "aarch64-darwin";
         host.config = "aarch64-darwin.nix";
+        host.homedirs = "/Users";
         home.stateVersion = default.home.stateVersion;
         home.config = default.home.config;
         home.nixpkgs = inputs.nixpkgs-darwin;
       };
 
-      macos.intel = {
+      macos_intel = {
         host.system = "x86_64-darwin";
         host.config = "x86_64-darwin.nix";
-        home = macos.arm.home;
+        host.homedirs = "/Users";
+        home = macos_arm.home;
       };
 
       nixos = {
         host.config = "nixos.nix";
+        host.homedirs = "/home";
         home.stateVersion = default.home.stateVersion;
         home.config = default.home.config;
         home.nixpkgs = inputs.nixpkgs;
@@ -116,24 +118,31 @@
       # Target hosts / machines.
       work = {
         user.name = "Shawn.OHare";
-        host = macos.arm.host;
-        home = macos.arm.home;
+        host = macos_arm.host;
+        home.stateVersion = default.home.stateVersion;
+        home.config = default.home.config;
+        home.nixpkgs = inputs.nixpkgs-darwin;
         overlays = 0;
       };
 
       mbp2016 = {
         user.name = "shawn";
         description = "MacBook Pro 2016";
-        host = macos.intel.host;
-        home = macos.intel.home;
+        host = macos_intel.host;
+        # home = macos.intel.home;
+        home.stateVersion = default.home.stateVersion;
+        home.config = default.home.config;
+        home.nixpkgs = inputs.nixpkgs-darwin;
+        home.homedir = "/Users/${mbp2016.user.name}";
         overlays = 0;
       };
 
       mba2022 = {
         user.name = "shawn";
         description = "MacBook Air 2022";
-        host = macos.arm.host;
-        home = macos.arm.home;
+        host = macos_arm.host;
+        home = macos_arm.home;
+        homedir = "/Users/${mba2022.user.name}";
         overlays = 0;
         homebrew.enable = false;
       };
