@@ -4,7 +4,6 @@
   inputs,
   nix-darwin,
   home-manager,
-  determinate,
   target,
   ...
 }:
@@ -25,6 +24,7 @@ nix-darwin.lib.darwinSystem rec {
     home-manager.darwinModules.home-manager
     {
       home-manager = {
+        backupFileExtension = "home-manager.bak";
         useGlobalPkgs = true;
         useUserPackages = true;
         extraSpecialArgs = {

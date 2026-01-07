@@ -24,7 +24,7 @@
     };
 
     # determinate systems. For use with nixOS
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
+    # determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
 
     home-manager = {
       # stable must be linked to the corresponding nixpkgs stable
@@ -64,7 +64,7 @@
     home-manager,
     nix-darwin,
     # nur,
-    determinate,
+    # determinate,
     # alejandra,
     # , nixgl
     # , hyprland
@@ -161,19 +161,20 @@
     # );
 
     # Build system configurations.
+
     darwinConfigurations = {
       mbp2016 = mkDarwin {
-        inherit nix-darwin home-manager inputs determinate;
+        inherit nix-darwin home-manager inputs;
         target = targets.mbp2016;
       };
 
       air = mkDarwin {
-        inherit nix-darwin home-manager inputs determinate;
+        inherit nix-darwin home-manager inputs;
         target = targets.mba2022;
       };
 
       work = mkDarwin {
-        inherit nix-darwin home-manager inputs determinate;
+        inherit nix-darwin home-manager inputs;
         target = targets.work;
       };
     };

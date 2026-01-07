@@ -161,16 +161,17 @@ _switch() {
         echo "switch: rebuild command not specified."
         exit 1
     fi
+    cmd="$1"
     if [ -z "$2" ]; then
         attr="$DIR"
     else
         attr="$DIR/#$2"
     fi
-    echo "switch: Switching configuration using $1 switch --flake ${attr}"
-    if [ "${REBUILD_CMD}" = "darwin-rebuild" ]; then
-        sudo "$1" --show-trace --verbose switch --flake "${attr}"
+    echo "switch: Switching configuration using ${cmd} switch --flake ${attr}"
+    if [ "${cmd}" = "darwin-rebuild" ]; then
+        sudo "${cmd}" --impure --show-trace --verbose switch --flake "${attr}"
     else
-        "$1" --show-trace --verbose switch --flake "${attr}"
+        "${cmd}" --impure --show-trace --verbose switch --flake "${attr}"
     fi
 }
 
@@ -210,11 +211,20 @@ cmd_system() {
 
 
 cmd_home() {
+    # NOTE: The actual sequence of commands seems to be more like first time
+    # run
+    # nix run home-manager -- switch --impure --flake .#work
+    # which will pull in home-manager even if nix-darwin is installed Then
+    # home-manager switch --impure --flake .#work
+    #
     # rebuild the (standalone) home-manager configuration
     target="${1:-$(whoami)}"
     if ! command -v "home-manager" 1> /dev/null; then
-        _build_home_manager "${target}"
+        # nix run home-manager --verbose --show-trace -- switch --impure --flake .
+        nix run home-manager --verbose --show-trace -- switch --impure --flake "${DIR}.#${target}"
+        # _build_home_manager "${target}"  # results in failures?
     else
+        # home-manager switch --impure --flake .#work
         _switch "home-manager" "${target}"
     fi
     
@@ -262,6 +272,7 @@ case "$1" in
         cmd="system"
         ;;
 esac
+
 
 # Parse subcommand args.
 case "$1" in

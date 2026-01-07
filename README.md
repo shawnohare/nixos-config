@@ -17,18 +17,18 @@ try to take some structural cues.
 
 ### Repo Structure
 
-- [host](./host): Contains system specific configurations.
-   In theory these configurations are at the highest level,
+- [host](./host): Contains system specific configurations targetting hardware
+   architectures. In theory these configurations are at the highest level,
    but we suspect that architecture-specific configurations leak into lower
    levels, e.g., with new Apple Silicon based macs.
    Cf. [Mitchell Hashimoto's nixos setup][mitchellh_nixos_config] to see how
-   vms are used to abstract some of these nuances away. We may settle upon
+   vms can be used to abstract some of these nuances away. We may settle upon
    a pattern where some hosts are abstract, to have common files to apply to
    a company mandated MacBook vs a personal one.
-- [home (home-manager)](./home): App configurations managed by home manager.
-- [./home/etc](./home/etc): Configurations not managed directly by home-manager
-  but symlinked via its `file` mechanism. Produces links to read-only files
-  so not ammenable to rapid iteration.
+- [home-manager](./home-manager): App configurations managed by home manager.
+- [./home-manager/etc](./home-manager/etc): Configurations not managed directly
+  by home-manager but symlinked via its `file` mechanism. Produces links to
+  read-only files so not ammenable to rapid iteration.
 - [lib](./lib/): Common boilerplate library functions used in this
   flake, e.g., for building nix-darwin and standalone home-manager configurations.
 - [overlays](./overlays) containing package overrides, e.g., to use a
@@ -49,7 +49,9 @@ cd ~/nixos-config
 ###  Install nix
 
 Except on NixOS, we must install nix (the package manager) itself to build the
-flake. Consider also [determinate][ds-intro].
+flake. Consider also [determinate][ds-intro]. NOTE: As of 2026 the
+Determinate Systems installer no longer installs vanilla `nix`, but their own
+variant.
 
 Note that the Determinate Systems installer will not necessarily result in an
 identical setup as the official installer. In particular, some default channels
@@ -98,11 +100,11 @@ Clone and build the flake for a specified target, e.g.,
 
 ```bash
 cd nixos-config
-host=work # defaults to $(hostname -s) if omitted
-./switch "${host}"
-# or
-nix --extra-experimental-features "nix-command flakes" build ".#darwinConfigurations.${host}.system"
-sudo result/sw/bin/darwin-rebuild switch --flake ".#${host}"
+target=work # defaults to $(hostname -s) if omitted
+./switch "${target}"
+# Or, roughly the equivalent
+nix --extra-experimental-features "nix-command flakes" build ".#darwinConfigurations.${target}.system"
+sudo result/sw/bin/darwin-rebuild switch --flake ".#${target}"
 ```
 
 #### nix-darwin rebuilding
@@ -111,9 +113,9 @@ After nix-darwin is built, `darwin-rebuild` is available. Rebuild the system
 and user configuration via
 
 ```bash
-./switch "${host}"
+./switch "${target}"
 # or
-sudo darwin-rebuild switch --flake "#${host}"
+sudo darwin-rebuild switch --flake "#${target}"
 ```
 
 #### Troubleshooting nix-darwin
@@ -147,10 +149,13 @@ systems it is possible to install home-manager in standalone mode. To do this,
 simply omit the system building steps outlined above.
 
 ```bash
-nix build --extra-experimental-features "nix-command flakes" ".#homeConfigurations.${host}.activationPackage"
-./result/activate
-# or
-./switch home ${host}
+# Initially, to install home-manager itself
+export NIXPKGS_ALLOW_UNFREE=true
+nix run home-manager --verbose --show-trace -- switch --impure --flake ".#${target}"
+# Once home-manager is installed
+home-manager switch --impure --flake ".${target}"
+# or in either case, use the helper script
+./switch home ${target}
 ```
 
 
@@ -189,7 +194,7 @@ To update a specific flake input (e.g., nixpkgs in the example)
 
 ```bash
 nix flake update nixpkgs
-# previously
+# previously this was
 nix flake lock --update-input nixpkgs --update-input <package>`
 ```
 

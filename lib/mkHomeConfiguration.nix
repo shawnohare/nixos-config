@@ -10,6 +10,7 @@
 }:
 home-manager.lib.homeManagerConfiguration rec {
   pkgs = target.home.nixpkgs.legacyPackages.${target.host.system};
+  # backupFileExtension = "home-manager.bak";  # invalid?
   extraSpecialArgs = {inherit inputs target;};
   modules = [
     ../home-manager/${target.home.config}

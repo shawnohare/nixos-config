@@ -53,7 +53,7 @@ in {
       bat # cat clone
       bottom # not top
       cachix
-      # coreutils-prefixed
+      coreutils-prefixed
       carapace # cross-shell completions
       ctags
       curl
@@ -205,7 +205,7 @@ in {
     bottom.enable = true;
     carapace.enable = true;
     dircolors.enable = true;
-    fish.enable = true;
+    # fish.enable = true;
     home-manager.enable = true;
     htop.enable = true;
     zoxide.enable = true;
