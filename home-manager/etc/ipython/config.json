@@ -1,0 +1,15 @@
+{
+    "Completer": {
+        "auto_close_dict_keys": true
+    },
+    "IPCompleter": {
+        "auto_close_dict_keys": true
+    },
+    "TerminalInteractiveShell": {
+        "auto_match": true,
+        "editor": "nvim",
+        "editing_mode": "vi",
+        "prompt_includes_vi_mode": true,
+        "true_color": true
+    }
+}

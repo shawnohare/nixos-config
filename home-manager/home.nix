@@ -43,7 +43,7 @@ in {
     with pkgs; [
       # # Adds the 'hello' command to your environment. It prints a friendly
       # # "Hello, world!" when run.
-      _1password-cli
+      # _1password-cli  # unfree
       hello
 
       alejandra
@@ -132,7 +132,8 @@ in {
     #   recursive = true;
     #   source = ./etc/config;
     # };
-    ".config/ipython/profile_default/ipython_config.py".source = ./etc/ipython/config.py;
+    # ".config/ipython/profile_default/ipython_config.py".source = ./etc/ipython/config.py;
+    ".config/ipython/profile_default/ipython_config.json".source = ./etc/ipython/config.json;
     ".local/bin" = {
       recursive = true;
       source = ./bin;
@@ -196,6 +197,7 @@ in {
     "...." = "cd ../../..";
     "....." = "cd ../../../..";
     mamba = "micromamba";
+    venv = "source .venv/bin/activate";
   };
 
   # Defaults to simply enable without much configuration.
