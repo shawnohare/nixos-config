@@ -13,6 +13,6 @@ home-manager.lib.homeManagerConfiguration rec {
   # backupFileExtension = "home-manager.bak";  # invalid?
   extraSpecialArgs = {inherit inputs target;};
   modules = [
-    ../home-manager/${target.home.config}
+    ../home/${target.home.profile}
   ];
 }

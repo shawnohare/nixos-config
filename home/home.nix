@@ -23,11 +23,12 @@ in {
 
   # Home Manager needs a bit of information about the paths it should manage.
   home.username = lib.mkDefault "${target.user.name}";
-  home.homeDirectory = lib.mkDefault (
-    if pkgs.stdenv.isDarwin
-    then "/Users/${config.home.username}"
-    else "/home/${config.home.username}"
-  );
+  # home.homeDirectory = lib.mkDefault (
+  #   if pkgs.stdenv.isDarwin
+  #   then "/Users/${config.home.username}"
+  #   else "/home/${config.home.username}"
+  # );
+  home.homeDirectory = "${target.homedirs}/${config.home.username}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -58,7 +59,7 @@ in {
       ctags
       curl
       delta # diff
-      devbox # global and per project dep manager.
+      # devbox # global and per project dep manager.
       direnv #
       dust # du + rust = dust
       # entr
@@ -79,7 +80,7 @@ in {
       moreutils
       mosh
       # micromamba # NOTE: Had issues, but devbox version seems fine.
-      # neovim  # NOTE: Managed through devbox.
+      # neovim  # NOTE:
       ncurses
       nixfmt-rfc-style
       nushell
@@ -198,6 +199,7 @@ in {
     "....." = "cd ../../../..";
     mamba = "micromamba";
     venv = "source .venv/bin/activate";
+    d = "z"; # change dirs with d instead of z
   };
 
   # Defaults to simply enable without much configuration.

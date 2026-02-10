@@ -30,7 +30,7 @@ nix-darwin.lib.darwinSystem rec {
         extraSpecialArgs = {
           inherit target;
         };
-        users."${target.user.name}" = import ../home-manager/${target.home.config};
+        users."${target.user.name}" = import ../home/${target.home.profile};
       };
     }
     # TODO: See if determine is useful for non-enterprise use?

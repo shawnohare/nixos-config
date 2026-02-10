@@ -99,7 +99,7 @@
 
     # Extras to add to .zshenv
     envExtra = ''
-      source "${config.xdg.configHome}/zsh/.zshenv.local" 2&> /dev/null
+      source "${config.xdg.configHome}/zsh/zshenv.local" 2&> /dev/null
     '';
 
     # Extras to add to .zshrc
@@ -118,7 +118,7 @@
       # these are available by default or via carapace as of 2024-05-01.
       autoload bashcompinit && bashcompinit
       complete -C aws_completer aws
-      eval "$(devbox global shellenv --init-hook)" 2&> /dev/null
+      # eval "$(devbox global shellenv --init-hook)" 2&> /dev/null
       eval "$(micromamba shell hook --shell=zsh)" 2&> /dev/null
     '';
 

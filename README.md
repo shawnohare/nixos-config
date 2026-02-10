@@ -17,7 +17,7 @@ try to take some structural cues.
 
 ### Repo Structure
 
-- [host](./host): Contains system specific configurations targetting hardware
+- [./host](./host): Contains system specific configurations targetting hardware
    architectures. In theory these configurations are at the highest level,
    but we suspect that architecture-specific configurations leak into lower
    levels, e.g., with new Apple Silicon based macs.
@@ -25,16 +25,16 @@ try to take some structural cues.
    vms can be used to abstract some of these nuances away. We may settle upon
    a pattern where some hosts are abstract, to have common files to apply to
    a company mandated MacBook vs a personal one.
-- [home-manager](./home-manager): App configurations managed by home manager.
-- [./home-manager/etc](./home-manager/etc): Configurations not managed directly
-  by home-manager but symlinked via its `file` mechanism. Produces links to
-  read-only files so not ammenable to rapid iteration.
+- [home-manager configurations](./home).
+- [Configuration files symlinked by home-manager](./home/etc).
+  Produces links to read-only files so not ammenable to rapid iteration.
 - [lib](./lib/): Common boilerplate library functions used in this
   flake, e.g., for building nix-darwin and standalone home-manager configurations.
 - [overlays](./overlays) containing package overrides, e.g., to use a
-   different channel. Not used much if at all at the moment.
-- [etc](./etc): Configurations not managed by home-manager, but
-  via a symlink farm manager.
+   different channel.
+- [./etc](./etc): Configurations not managed by home-manager, but
+  via a symlink farm manager, e.g., our simple shell script
+  [stash](https://github.com/shawnohare/stash)
 
 
 ## Setup

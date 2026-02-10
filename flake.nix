@@ -35,23 +35,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nixos-hardware.url = "github:nixos/nixos-hardware";
-    # nixos-generators.url = "github:nix-community/nixos-generators";
-
-    # nur = {
-    #   url = "github:nix-community/NUR";
-    # };
-
-    # nixgl = {
-    #   url = "github:guibou/nixGL";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    # hyprland = {
-    #   url = "github:vaxerski/Hyprland";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
     alejandra = {
       url = "github:kamadorueda/alejandra/4.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -80,7 +63,7 @@
     # - user.name: The hardcoded username used in both system and home configs.
     # - host.config: The system level configuration to use with nixOS or nix-darwin.
     # - host.system: The system architecture and OS string.
-    # - home.config: The user level configuration to use with home-manager.
+    # - home.profile: The user level configuration to use with home-manager.
     # - home.nixpkgs: The version of nixpkgs to use to set the pkgs attribute
     # - home.stateVersion: The home-manager state version.
     #   in a standalone home-manager context.
@@ -90,30 +73,30 @@
         macos.homedirs = "/Users";
         linux.homedirs = "/home";
         home.stateVersion = "25.11";
-        home.config = "home.nix";
+        home.profile = "home.nix";
       };
 
       macos_arm = {
         host.system = "aarch64-darwin";
         host.config = "aarch64-darwin.nix";
-        host.homedirs = default.macos.homedirs;
+        homedirs = default.macos.homedirs;
         home.stateVersion = default.home.stateVersion;
-        home.config = default.home.config;
+        home.profile = default.home.profile;
         home.nixpkgs = inputs.nixpkgs-darwin;
       };
 
       macos_intel = {
         host.system = "x86_64-darwin";
         host.config = "x86_64-darwin.nix";
-        host.homedirs = default.macos.homedirs;
+        homedirs = default.macos.homedirs;
         home = macos_arm.home;
       };
 
       nixos = {
         host.config = "nixos.nix";
-        host.homedirs = "/home";
+        homedirs = default.linux.homedirs;
         home.stateVersion = default.home.stateVersion;
-        home.config = default.home.config;
+        home.profile = default.home.profile;
         home.nixpkgs = inputs.nixpkgs;
       };
 
@@ -121,8 +104,9 @@
       work = {
         user.name = "Shawn.OHare";
         host = macos_arm.host;
+        homedirs = default.macos.homedirs;
         home.stateVersion = default.home.stateVersion;
-        home.config = default.home.config;
+        home.profile = default.home.profile;
         home.nixpkgs = inputs.nixpkgs-darwin;
         overlays = 0;
       };
@@ -132,8 +116,9 @@
         description = "MacBook Pro 2016";
         host = macos_intel.host;
         # home = macos.intel.home;
+        homedirs = default.macos.homedirs;
         home.stateVersion = default.home.stateVersion;
-        home.config = default.home.config;
+        home.profile = default.home.profile;
         home.nixpkgs = inputs.nixpkgs-darwin;
         home.homedir = "/Users/${mbp2016.user.name}";
         overlays = 0;
@@ -143,6 +128,7 @@
         user.name = "shawn";
         description = "MacBook Air 2022";
         host = macos_arm.host;
+        homedirs = default.macos.homedirs;
         home = macos_arm.home;
         homedir = "/Users/${mba2022.user.name}";
         overlays = 0;
