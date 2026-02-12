@@ -19,7 +19,7 @@ return {
       },
     },
     {
-       "shawnohare/hadalized.nvim",
+       "hadalized/hadalized.nvim",
        priority = 1000,
        opts = {},
        dependencies = {

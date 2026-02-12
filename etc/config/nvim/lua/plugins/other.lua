@@ -47,35 +47,14 @@ return {
         },
         -- dependencies = { { "nvim-lua/plenary.nvim" } },
     },
-    -- {
-    --     "nvim-lualine/lualine.nvim",
-    --     -- dependencies = { "nvim-tree/nvim-web-devicons" },
-    --     opts = {},
-    -- },
-    --
-			--  {
-			--   'beauwilliams/statusline.lua',
-			--   dependencies = {
-			--           'nvim-lua/lsp-status.nvim',
-			--   },
-			--      opts = {
-			-- -- match_colorscheme = true,
-			--      },
-			--  },
+    {
+        "nvim-lualine/lualine.nvim",
+        -- dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {},
+    },
     { "windwp/nvim-autopairs", opts = {} },
     -- { "nvim-mini/mini.nvim", version = false },
     { "folke/trouble.nvim", opts = {}, cmd = "Trouble" },
-    {
-        "folke/lazydev.nvim",
-        ft = "lua", -- only load on lua files
-        opts = {
-            library = {
-                -- See the configuration section for more details
-                -- Load luvit types when the `vim.uv` word is found
-                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-            },
-        },
-    },
     {
         "folke/todo-comments.nvim",
         -- dependencies = { "nvim-lua/plenary.nvim" },
@@ -94,32 +73,4 @@ return {
     { "lewis6991/spaceless.nvim", opts = {} },
     { "lewis6991/gitsigns.nvim", opts = {} },
     { 'TimUntersberger/neogit', opts = {} },
-    { "nvim-tree/nvim-tree.lua", opts = {} },
-    {
-        "folke/noice.nvim",
-        enabled = false,
-        dependencies = {
-            "MunifTanjim/nui.nvim",
-            -- NOTE: notify view is a bit distracting
-            -- "rcarriga/nvim-notify",
-        },
-        opts = {
-            lsp = {
-                -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-                override = {
-                    ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                    ["vim.lsp.util.stylize_markdown"] = true,
-                    ["cmp.entry.get_documentation"] = true,
-                },
-            },
-            -- you can enable a preset for easier configuration
-            presets = {
-                bottom_search = true, -- use a classic bottom cmdline for search
-                -- command_palette = true, -- position the cmdline and popupmenu together
-                -- long_message_to_split = true, -- long messages will be sent to a split
-                -- inc_rename = false, -- enables an input dialog for inc-rename.nvim
-                lsp_doc_border = true, -- add a border to hover docs and signature help
-            },
-        },
-    },
 }
