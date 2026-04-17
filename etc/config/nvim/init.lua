@@ -36,6 +36,13 @@ endtry
 -- ---------------------------------------------------------------------------
 -- post package config
 -- ---------------------------------------------------------------------------
+vim.filetype.add({
+    extension = {
+      jinja = 'jinja',
+      jinja2 = 'jinja',
+      j2 = 'jinja',
+    },
+})
 
 vim.cmd([[
 autocmd filetype nix setlocal commentstring=#\ %s
@@ -93,7 +100,7 @@ vim.opt.scrolloff = 5
 vim.opt.shiftwidth = 4
 vim.opt.shortmess:append("A")
 vim.opt.showcmd = true
-vim.opt.showmode = true
+vim.opt.showmode = false
 vim.opt.smartcase = true
 vim.opt.softtabstop = 4
 vim.opt.splitbelow = true
@@ -131,27 +138,31 @@ vim.opt.wildignore = {
 }
 
 -- NOTE: default lualine seems sensible enough for now.
-local statusline = {
-	"%{mode()} | ",
-	"buf:%n | ",
-	" %F", -- full path to file
-	-- '%{fugitive#statusline()}',
-	-- righthand side
-	"%=",
-	"%{&filetype} (%{&fenc}) ",
-	"%h%m%w%r | ",
-	"%l:%c (%p%%) ",
-	"%*",
-}
 -- local statusline = {
---   '%{mode()} | ',
---   ' %t',
---   '%r',
---   '%m',
---   '%=',
---   '%{&filetype}',
---   ' %2p%%',
---   ' %3l:%-2c '
+-- 	"%{mode()} | ",
+-- 	"buf:%n | ",
+-- 	" %F", -- full path to file
+-- 	-- '%{fugitive#statusline()}',
+-- 	-- righthand side
+-- 	"%=",
+-- 	"%{&filetype} (%{&fenc}) ",
+-- 	"%h%m%w%r | ",
+-- 	"%l:%c (%p%%) ",
+-- 	"%*",
 -- }
+-- -- local statusline = {
+-- --   '%{mode()} | ',
+-- --   ' %t',
+-- --   '%r',
+-- --   '%m',
+-- --   '%=',
+-- --   '%{&filetype}',
+-- --   ' %2p%%',
+-- --   ' %3l:%-2c '
+-- -- }
+--
+-- vim.o.statusline = table.concat(statusline, "")
 
-vim.o.statusline = table.concat(statusline, "")
+-- Some lsp's cause the log file to grow infinitely very fast.
+--
+vim.lsp.log.set_level("off")
