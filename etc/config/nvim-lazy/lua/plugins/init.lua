@@ -164,7 +164,7 @@ return {
         "folke/which-key.nvim",
         event = "VeryLazy",
         opts = {
-            preset = "", -- in ("class", "modern", "helix")
+            preset = "", -- in ("classic", "modern", "helix")
             -- delay = 100,
             spec = keymaps,
         },
