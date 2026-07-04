@@ -41,6 +41,8 @@ try to take some structural cues.
 
 ### Clone the Repo
 
+Since we manage our configuration via a combination of 
+
 ```bash
 git clone --recurse-submodules https://github.com/shawnohare/nixos-config
 cd ~/nixos-config
@@ -62,6 +64,13 @@ Determinate systems nix is now [directly compatible][ds-nix-darwin-compat]
 with nix-darwin 24.11. Both detsys nix and nix-darwin want to manage nix
 directly.
 
+1. The official installer
+    ```bash
+    if [ "$(uname -s)" = "Darwin" ]; then
+        xcode-select --install
+    fi
+    curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh
+    ```
 1. The [Determinate Systems graphical installer][ds-graphical-installer].
 1. The Determinate Systems cli installer
     ```bash
@@ -69,13 +78,6 @@ directly.
         xcode-select --install
     fi
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-    ```
-1. The official installer
-    ```bash
-    if [ "$(uname -s)" = "Darwin" ]; then
-        xcode-select --install
-    fi
-    sh <(curl -L https://nixos.org/nix/install) --daemon
     ```
 
 ### macOS

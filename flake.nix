@@ -72,7 +72,7 @@
       default = {
         macos.homedirs = "/Users";
         linux.homedirs = "/home";
-        home.stateVersion = "25.11";
+        home.stateVersion = "26.05";
         home.profile = "home.nix";
       };
 
@@ -82,7 +82,7 @@
         homedirs = default.macos.homedirs;
         home.stateVersion = default.home.stateVersion;
         home.profile = default.home.profile;
-        home.nixpkgs = inputs.nixpkgs-darwin;
+        home.nixpkgs = inputs.nixpkgs;
       };
 
       macos_intel = {
@@ -107,7 +107,7 @@
         homedirs = default.macos.homedirs;
         home.stateVersion = default.home.stateVersion;
         home.profile = default.home.profile;
-        home.nixpkgs = inputs.nixpkgs-darwin;
+        home.nixpkgs = inputs.nixpkgs;
         overlays = 0;
       };
 
@@ -119,11 +119,12 @@
         homedirs = default.macos.homedirs;
         home.stateVersion = default.home.stateVersion;
         home.profile = default.home.profile;
-        home.nixpkgs = inputs.nixpkgs-darwin;
+        home.nixpkgs = inputs.nixpkgs;
         home.homedir = "/Users/${mbp2016.user.name}";
         overlays = 0;
       };
 
+      # FIXME: Outdated spec?
       mba2022 = {
         user.name = "shawn";
         description = "MacBook Air 2022";
@@ -134,6 +135,18 @@
         overlays = 0;
         homebrew.enable = false;
       };
+
+      mbp = {
+        user.name = "shawn";
+        host = macos_arm.host;
+        homedirs = default.macos.homedirs;
+        home.stateVersion = default.home.stateVersion;
+        home.profile = default.home.profile;
+        home.nixpkgs = inputs.nixpkgs;
+        overlays = 0;
+        homebrew.enable = false;
+      };
+
     };
   in {
     inherit self inputs;
@@ -163,6 +176,11 @@
         inherit nix-darwin home-manager inputs;
         target = targets.work;
       };
+
+      mbp = mkDarwin {
+        inherit nix-darwin home-manager inputs;
+        target = targets.mbp;
+      };
     };
 
     # Stand-alone home-manager configurations. Cannot be used in conjunction
@@ -176,9 +194,19 @@
         target = targets.work;
       };
 
-      shawn = mkHomeConfiguration {
+      air = mkHomeConfiguration {
         inherit home-manager inputs;
         target = targets.mba2022;
+      };
+
+      mbp = mkHomeConfiguration {
+        inherit home-manager inputs;
+        target = targets.mbp;
+      };
+
+      shawn = mkHomeConfiguration {
+        inherit home-manager inputs;
+        target = targets.mbp;
       };
 
       # configs keyed with user names allow simply running `switch` to update

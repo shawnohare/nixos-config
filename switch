@@ -219,9 +219,11 @@ cmd_home() {
     #
     # rebuild the (standalone) home-manager configuration
     target="${1:-$(whoami)}"
+    echo "Rebuilding standalone home-manager configuration for ${target}"
     if ! command -v "home-manager" 1> /dev/null; then
         # nix run home-manager --verbose --show-trace -- switch --impure --flake .
-        nix run home-manager --verbose --show-trace -- switch --impure --flake "${DIR}.#${target}"
+        echo "Did not find home-manager."
+        nix run home-manager --verbose --show-trace -- switch --impure --flake "${DIR}#${target}"
         # _build_home_manager "${target}"  # results in failures?
     else
         # home-manager switch --impure --flake .#work
@@ -269,7 +271,8 @@ case "$1" in
         exit
         ;;
     *)
-        cmd="system"
+        echo "Command $1 not recognized. See switch --help"
+        exit 1
         ;;
 esac
 

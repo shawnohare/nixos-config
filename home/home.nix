@@ -53,7 +53,7 @@ in {
       bandwhich
       bat # cat clone
       bottom # not top
-      cachix
+      # cachix
       coreutils-prefixed
       carapace # cross-shell completions
       ctags
@@ -82,7 +82,7 @@ in {
       # micromamba # NOTE: Had issues, but devbox version seems fine.
       # neovim  # NOTE:
       ncurses
-      nixfmt-rfc-style
+      nixfmt
       nushell
       pandoc
       procs # ps replacement
@@ -139,7 +139,7 @@ in {
       recursive = true;
       source = ./bin;
     };
-    ".local/bin/switch".source = ../switch;
+    # ".local/bin/switch".source = ../switch;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -209,7 +209,7 @@ in {
     bottom.enable = true;
     carapace.enable = true;
     dircolors.enable = true;
-    # fish.enable = true;
+    fish.enable = true;
     home-manager.enable = true;
     htop.enable = true;
     zoxide.enable = true;
