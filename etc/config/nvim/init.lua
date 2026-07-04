@@ -6,6 +6,14 @@
 vim.loader.enable()
 
 -- ==========================================================================
+-- Filetype aliases
+-- ==========================================================================
+-- vim.filetype.add({
+--   pattern = {
+--     ['*.j2'] = 'jinja',
+--   },
+-- })
+-- ==========================================================================
 -- Helpers
 -- ==========================================================================
 ---@param path string The group/repo string.
@@ -109,6 +117,9 @@ vim.lsp.log.set_level("off")
 -- - yazi (cli app)
 -- - triptych (floating windows?)
 
+-- ==========================================================================
+-- Plugins
+-- ==========================================================================
 vim.pack.add({
     { src = gh("neovim-treesitter/treesitter-parser-registry") }, -- dep
     { src = gh("neovim-treesitter/nvim-treesitter") },
@@ -139,7 +150,7 @@ vim.pack.add({
     { src = gh("eero-lehtinen/oklch-color-picker.nvim") },
 })
 
-vim.cmd.colorscheme("hadalized")
+vim.cmd.colorscheme("hadalized")  -- set after adding package
 
 
 -- Arborist is a new (2026-04) package that autoinstalls parsers. It handles all the
@@ -155,6 +166,7 @@ vim.cmd.colorscheme("hadalized")
 -- To use, one can include the following code and install parsers with
 -- :TSInstall <language>
 --
+
 -- -- autostart treesitter if the language is installed.
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("tree-sitter-enable", { clear = true }),
@@ -255,7 +267,7 @@ require("oklch-color-picker").setup({
 
 local Snacks = require("snacks")
 Snacks.setup({
-    indent = { enabled = true },
+    indent = { enabled = true, animate = { enabled = false } },
     -- input = { enabled = true },
     -- git = { enabled = true },
     quickfile = { enabled = true },
@@ -267,10 +279,8 @@ Snacks.setup({
 })
 
 -- statusline config
--- require("mini.statusline").setup()  -- like lualine a bit more, no git?
--- require("mini.git").setup()  -- didn't seem to add signs
--- require("mini.align").setup()
 -- require("mini.pairs").setup()
+require("mini.ai").setup()
 require("mini.surround").setup()
 require("lualine").setup({})
 require("gitsigns").setup()
@@ -368,7 +378,9 @@ vim.cmd.packadd("nvim.difftool")
 -- vim.cmd.packadd("nvim.undotree")
 -- map("n", "<leader>u", require("undotree").open, { desc = "Undotree" })
 
-
+-- ==========================================================================
+-- Filetype aliases
+-- ==========================================================================
 -- finder / picker keymaps
 local picker = require("snacks.picker")
 -- buffer keymaps <leader>b
@@ -473,3 +485,5 @@ end, { desc = "Color pick under cursor" })
 -- map("n", "<leader>lo", lua("vim.lsp.buf.document_symbol()"), { desc = "Symbols: Document" })
 -- map("n", "<leader>lw", lua("vim.lsp.buf.workspace_symbol()"), { desc = "Symbols: Workspace" })
 -- map("n", "<leader>lt", lua("vim.lsp.buf.type_definition()"), { desc = "Type Definition" })  -- grt
+
+

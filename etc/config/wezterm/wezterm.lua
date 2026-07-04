@@ -1,15 +1,21 @@
-local wezterm = require('wezterm')
+local wezterm = require("wezterm")
 
 local config = {
    --  font = wezterm.font {
    --      family = "JetBrainsMono Nerd Font",
    --      -- family = "Monaspace Neon",
-   --      weight = 'Regular',   -- default = regular
+   --      weight = "Regular",   -- default = regular
    --      -- harfbuzz_features = { "calt=1", "clig=0"},
    --  },
    font = wezterm.font(
         "JetBrainsMono Nerd Font",
-        { weight = 'Regular' }
+        { weight = "Regular" }
+        -- "Cascadia Code NF",
+        -- { weight = "Light" }
+        -- "Monaspace Neon NF",
+        -- { weight = "Light" }
+        -- "Monaspace Neon Frozen",
+        -- { weight = "Light" }
     ),
     font_size = 14,
     bold_brightens_ansi_colors = false,
@@ -17,7 +23,7 @@ local config = {
     -- freetype_load_target = "Normal",
     -- freetype_render_target = "HorizontalLcd",
 
-    color_scheme = 'hadalized'
+    color_scheme = "hadalized"
 }
 
 return config
