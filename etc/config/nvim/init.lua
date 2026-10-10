@@ -121,9 +121,7 @@ vim.lsp.log.set_level("off")
 -- Plugins
 -- ==========================================================================
 vim.pack.add({
-    { src = gh("neovim-treesitter/treesitter-parser-registry") }, -- dep
-    { src = gh("neovim-treesitter/nvim-treesitter") },
-    -- gh("arborist-ts/arborist.nvim"),
+    { src = gh("nvim-treesitter/nvim-treesitter") },
     { src = gh("hadalized/hadalized.nvim") },        -- colorscheme
     { src = gh("mason-org/mason.nvim") },            -- handles installation of lsp tools
     { src = gh("neovim/nvim-lspconfig") },           -- contains lsp server configs
@@ -153,38 +151,61 @@ vim.pack.add({
 vim.cmd.colorscheme("hadalized")  -- set after adding package
 
 
--- Arborist is a new (2026-04) package that autoinstalls parsers. It handles all the
--- boilerplate treesitter, which is quite nice.
--- require("arborist").setup()
-
 -- require("nvim-tree").setup()
 -- require("neo-tree")
 
--- treesitter config
--- NOTE: The original `nvim-treesitter` was archived on 2026-04
--- neovim-treesitter/nvim-treesitter is a fork of nvim-treesitter
--- To use, one can include the following code and install parsers with
--- :TSInstall <language>
---
+-- ==========================================================================
+-- Tree-sitter
+-- ==========================================================================
+local treesitter = require("nvim-treesitter")
 
--- -- autostart treesitter if the language is installed.
+-- Common languages, including parsers used inside Markdown code fences.
+-- Asynchronous; already-installed parsers are skipped.
+treesitter.install({
+    "markdown", "markdown_inline",
+    "bash", "zsh", "python", "lua", "rust", "ruby",
+    "javascript", "typescript", "tsx",
+    "json", "yaml", "toml", "nix", "hcl", "terraform",
+})
+
+local function enable_treesitter(buf, lang)
+    if not vim.api.nvim_buf_is_valid(buf) then return end
+    if not vim.treesitter.language.add(lang) then return end
+
+    if vim.treesitter.query.get(lang, "highlights") then
+        vim.treesitter.start(buf, lang)
+    end
+    if vim.treesitter.query.get(lang, "indents") then
+        vim.bo[buf].indentexpr = 'v:lua.require("nvim-treesitter").indentexpr()'
+    end
+    if vim.treesitter.query.get(lang, "folds") then
+        -- Folding options are window-local, not buffer-local.
+        for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+            vim.wo[win].foldmethod = "expr"
+            vim.wo[win].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        end
+    end
+end
+
+-- Auto-install supported parsers on first opening a new filetype.
+-- Neovim maps filetypes to parser names (e.g., sh -> bash, tsx -> tsx).
+local available_parsers = vim.iter(treesitter.get_available()):fold({}, function(acc, lang)
+    acc[lang] = true
+    return acc
+end)
+
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("tree-sitter-enable", { clear = true }),
     callback = function(args)
         local lang = vim.treesitter.language.get_lang(args.match)
-        if not lang or not vim.treesitter.language.add(lang) then
-            return
-        end
+        if not lang then return end
 
-        if vim.treesitter.query.get(lang, "highlights") then
-            vim.treesitter.start(args.buf)
-        end
-        if vim.treesitter.query.get(lang, "indents") then
-            vim.opt_local.indentexpr = 'v:lua.require("nvim-treesitter").indentexpr()'
-        end
-        if vim.treesitter.query.get(lang, "folds") then
-            vim.opt_local.foldmethod = "expr"
-            vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        if vim.treesitter.language.add(lang) then
+            enable_treesitter(args.buf, lang)
+        elseif available_parsers[lang] then
+            treesitter.install(lang):await(function()
+                enable_treesitter(args.buf, lang)
+            end)
         end
     end,
 })
